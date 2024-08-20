@@ -9,35 +9,33 @@ public class PatronPrototypeMain {
     public static void main(String[] args) {
         // Creación de la Lista Inicial de Precios
         ListaPrecios listadoEstandar = new ListaPrecios("Lista Estándar de Precios");
-        for(int c = 1; c <= 5; c++){
+        for (int c = 1; c <= 5; c++) {
             CatalogoProductos item = new CatalogoProductos("Producto " + c, c * 2);
             listadoEstandar.addCatalogoItem(item);
         }
 
-        // Segunda lista para clientes mayoristas.
-        // Se obtiene del listado estándar con un 10% de descuento.
+        // Añadir la lista estándar a la fábrica de prototipos
         FabricaPrototype.addPrototype(listadoEstandar.getListado(), listadoEstandar);
 
-        ListaPrecios listadoPorMayor = (ListaPrecios) FabricaPrototype.getPrototype("Lista Estándar de Precios");
-        listadoPorMayor.setListado("Listado de Precios al Por Mayor");
-
-        for(CatalogoProductos item : listadoPorMayor.getProductos()){
-            item.setPrecioProducto(item.getPrecioProducto() * 0.90);
+        // Crear la primera lista con 19% de IVA
+        ListaPrecios listaConIVA19 = (ListaPrecios) FabricaPrototype.getPrototype("Lista Estándar de Precios");
+        listaConIVA19.setListado("Lista con 19% de IVA");
+        for (CatalogoProductos item : listaConIVA19.getProductos()) {
+            item.setPrecioProducto(item.getPrecioProducto() * 1.19);
         }
-        FabricaPrototype.addPrototype(listadoPorMayor.getListado(), listadoPorMayor);
+        FabricaPrototype.addPrototype(listaConIVA19.getListado(), listaConIVA19);
 
-        // Tercera lista de precios para clientes Especiales.
-        // Se obtiene del listado Mayorista menos un 10%.
-        ListaPrecios listadoClientesEspeciales = (ListaPrecios) FabricaPrototype.getPrototype("Listado de Precios al Por Mayor");
-        listadoClientesEspeciales.setListado("Listado de Precios Clientes Especiales");
-
-        for(CatalogoProductos item : listadoClientesEspeciales.getProductos()){
-            item.setPrecioProducto(item.getPrecioProducto() * 0.90);
+        // Crear la segunda lista con 5% de IVA
+        ListaPrecios listaConIVA5 = (ListaPrecios) FabricaPrototype.getPrototype("Lista Estándar de Precios");
+        listaConIVA5.setListado("Lista con 5% de IVA");
+        for (CatalogoProductos item : listaConIVA5.getProductos()) {
+            item.setPrecioProducto(item.getPrecioProducto() * 1.05);
         }
+        FabricaPrototype.addPrototype(listaConIVA5.getListado(), listaConIVA5);
 
-        // Imprimimos las diferentes listas.
+        // Imprimir las diferentes listas de precios
         System.out.println(listadoEstandar);
-        System.out.println(listadoPorMayor);
-        System.out.println(listadoClientesEspeciales);
+        System.out.println(listaConIVA19);
+        System.out.println(listaConIVA5);
     }
 }
